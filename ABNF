@@ -1,0 +1,35 @@
+#ABNF 1.0 UTF-8;
+business miaolaoshi;
+#include "pre_word.lst"
+root main;
+#ABNF HEAD-END;
+
+
+//业务唤醒前缀词
+$pre_word = ($u_LST_pre_word);
+
+/*业务唤醒名称，音箱输入："打开考拉FM"，进入应用，建议做容错处理，如
+	"$l_bizname{bizname%考拉}=考拉[fm|FM]"，
+	"$l_bizname{bizname%e袋洗} = (一|E|e|1|以|一)(袋洗|代洗|代谢|戴茜|代新)"
+*/
+$l_bizname{bizname} = 喵老师;
+
+/*业务唤醒,唤醒业务方式如下，
+	1、前缀词+业务唤醒词；
+	2、前缀词+业务唤醒词+用户意图；
+	3、进入业务流程后，之后用户可以直接交互，不需要加业务唤醒词
+*/
+$c_bizname = [$pre_word]$l_bizname;
+
+$play = 播放;
+$want = 要|想|想要;
+$query{operation%query} = 听;
+
+//名称通配
+$songName{songName}= $_ti_ch_<2-10>;
+
+$ask_content1 = [我] [$want] [$query] $songName;
+$ask_content2 = [$play] $songName;
+
+//$main{biz:miaolaoshi} = $_ti_ch_<3->(([$c_bizname]$_ti_ch_<2->$ask_content1)|$c_bizname)$_ti_ch_<5-> ;
+$main{biz:miaolaoshi} = $_ti_ch_<3->(([$c_bizname]$_ti_ch_<2->($ask_content1|$ask_content2))|$c_bizname)$_ti_ch_<5-> ;
