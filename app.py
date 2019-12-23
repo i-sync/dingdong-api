@@ -83,18 +83,20 @@ def miaolaoshi():
     #print(request.json)
     if not request.json:
         abort(404)
-    logger.info(request.json)
+
+    #logger.debug(json.dumps(request.json))
 
     res = {}
     res['versionid'] = '1.0'
     res['sequence'] = request.json['sequence']
     respose_body(request.json, res)
     res['timestamp'] = int(round(time.time() * 1000))
-    return jsonify(res)
+
+    return jsonify(request.json)
 
 
 def respose_body(req, res):    
-    status =  req['status'] if 'status' in req['status'] else None
+    status =  req['status'] if 'status' in req else None
     if status == 'LAUNCH':
         res['is_end'] = False
         #body['need_slot'] = ''
