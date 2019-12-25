@@ -19,7 +19,7 @@ logfile = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app.log')
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-handler = TimedRotatingFileHandler(logfile, when="midnight", interval=1)
+handler = TimedRotatingFileHandler(logfile, when="midnight", interval=1, encoding='utf-8')
 handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(threadName)-10s %(message)s'))
 handler.suffix = "%Y%m%d"
 logger.addHandler(handler)

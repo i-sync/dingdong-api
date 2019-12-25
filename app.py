@@ -84,7 +84,7 @@ def miaolaoshi():
     if not request.json:
         abort(404)
 
-    #logger.debug(json.dumps(request.json))
+    logger.info(json.dumps(request.json, ensure_ascii=False))
 
     res = {}
     res['versionid'] = '1.0'
